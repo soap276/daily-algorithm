@@ -1,16 +1,86 @@
 ## 🗓 2026-01-21
 
-### 🔢 문제
-- BOJ 1000: A+B
+### 📌 문제 설명
+도서 대여 시스템을 간단하게 구현한다.  
+회원이 생성되면 전체 회원 수가 증가하고,  
+회원의 나이에 따라 대여 가능한 책의 수가 정해진다.  
+(나이 ÷ 10 만큼 책을 대여)
 
-### 💡 풀이 아이디어
-두 수를 입력받아 더한다.
+책을 대여하면 전체 책의 수가 줄어들고,  
+현재 남은 책의 수와 대여 결과를 출력한다.
+
+---
+
+### 💡 구현 아이디어
+- 전역 변수로 전체 회원 수(`number_of_people`)와 전체 책 수(`number_of_book`) 관리
+- `create_user()`로 회원 생성 및 회원 수 증가
+- `rental_book()`으로 나이에 따른 대여 권수 계산
+- `decrease_book()`으로 책 수 감소 처리
+- `zip()`을 사용해 이름, 나이, 주소 리스트를 동시에 순회
+
+---
 
 ### 🧠 배운 점
-- Python 입력 처리 복습
-- 기본 입출력 중요
+- `global` 키워드를 사용해야 함수 안에서 전역 변수를 수정할 수 있다.
+- 딕셔너리에서 key, value는 `keys()`, `values()`로 접근할 수 있다.
+- `zip()`을 사용하면 여러 리스트를 깔끔하게 한 번에 순회할 수 있다.
+- 기능별로 함수를 나누면 코드가 읽기 쉬워진다.
+
+---
 
 ### 💻 코드
+
 ```python
-a, b = map(int, input().split())
-print(a + b)
+number_of_people = 0
+number_of_book = 100
+
+# 책 감소 함수
+def decrease_book(rental):
+    global number_of_book
+    number_of_book -= rental
+    print(f'남은 책의 수: {number_of_book}')
+
+# 책 대여 함수
+def rental_book(info):
+    name = list(info.keys())[0]  # 딕셔너리는 키로 접근!
+    age = list(info.values())[0]
+    rental = age // 10
+    decrease_book(rental)
+    print(f'{name}님이 {rental}권의 책을 대여하였습니다.')
+
+# 회원 수 증가
+def increase_user():
+    global number_of_people
+    number_of_people += 1
+
+# 회원 생성
+def create_user(name, age, address):
+    increase_user()
+    user_info = {
+        'name': name,
+        'age': age,
+        'address': address
+    }
+    print(f'{name}님 환영합니다!')
+    return user_info
+
+# --------실행 부분--------
+
+name = ['김시습', '허균', '남영로', '임제', '박지원']
+age = [20, 16, 52, 36, 60]
+address = ['서울', '강릉', '조선', '나주', '한성부']
+
+many_user = []
+for n, a, ad in zip(name, age, address):
+    many_user.append(create_user(n, a, ad))
+
+user_info = []
+
+for user in many_user:
+    name = user['name']
+    age = user['age']
+    new_dict = {name: age}
+    user_info.append(new_dict)
+
+for info in user_info:
+    rental_book(info)
