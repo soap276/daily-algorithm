@@ -1,6 +1,4 @@
-# daily-algorithm
-
-# 📚 Daily Algorithm Study
+# 📚 Daily Algorithm 
 
 매일 알고리즘 공부하고 문제 푼 내용을 정리하는 저장소입니다.
 
