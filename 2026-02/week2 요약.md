@@ -49,7 +49,6 @@ def counting_sort(DATA, TEMP, k):
 ```
 ## 완전 검색
 - 모든 경우의 수를 나열해보고 확인하는 기법
-
 - 단순하게 순열을 생성하는 방법 (baby-gin)
 ``` python
 for i1 in range(1, 4):
