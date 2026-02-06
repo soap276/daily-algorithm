@@ -1,0 +1,61 @@
+## 배열 원소 중 최댓값이 여러개인 경우 마지막 인덱스 찾기
+``` python
+max_idx = 0 # 첫 원소를 최대로 가정
+for i in range(1, N):
+    if arr[max_idx] <= arr[i]: # 더 큰값 또는 같은값이면
+        max_idx = i # max_idx 갱신
+```
+
+## 찾는 값이 배열에 있으면 해당 원소의 인덱스, 없으면 -1을 idx에 넣기
+``` python 
+idx = -1 # 찾는 값이 없다고 가정
+for i in range(N):
+    if arr[i] == V: # arr[i]가 찾는 값이면
+        idx = i # 인덱스 저장
+        break # for i
+```
+
+## 버블 정렬
+- 인접한 두 개의 원소를 비교하며 자리를 계속 교환하는 방식
+- 시간복잡도 O(n^2)
+``` python
+def bubble_sort(a, N): # 정렬할 List, N 원소 수
+    for i in range(N-1, 0, -1): # 범위의 끝 위치
+        for j in range(i): # 비교할 왼쪽 원소 인덱스 j
+            if a[j] > a[j+1]:
+                a[j], a[j+1] = a[j+1], a[j]
+```
+
+## 카운팅 정렬
+- 집합에 각 항목이 몇 개씩 있는지 세는 작업을 하여 선형시간에 정렬하는 효율적인 방식, k가 비교적 작을 때만 가능
+- 시간복잡도 O(n+k): n은 리스트 길이, k는 정수의 최댓값
+``` python
+def counting_sort(DATA, TEMP, k):
+    # DATA [] -- 입력 배열(원소는 0 이상 k 이하 정수)
+    # TEMP [] -- 정렬된 배열
+    # COUNTS [] -- 카운트 배열
+
+    COUNTS = [0] * (k+1)
+
+    for i in range(len(DATA)): # DATA[i] 발생횟수 기록
+        COUNTS[DATA[i]] += 1
+
+    for i in range(1, k+1): # COUNTS 값 조정 (누적)
+        COUNTS[i] += COUNTS[i-1]
+
+    for i in range(len(DATA)-1, -1, -1): # 3단계
+        COUNTS[DATA[i]] -= 1
+        TEMP[COUNTS[DATA[i]]] = DATA[i]
+```
+## 완전 검색
+- 모든 경우의 수를 나열해보고 확인하는 기법
+
+- 단순하게 순열을 생성하는 방법 (baby-gin)
+``` python
+for i1 in range(1, 4):
+    for i2 in range(1, 4):
+        if i2 != i1:
+            for i3 in range(1, 4):
+                if i3 != i1 and i3 != i2:
+                    print(i1, i2, i3)
+```
