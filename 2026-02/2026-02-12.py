@@ -203,3 +203,41 @@ if path:
     print("경로:", path)
 else:
     print("경로 없음")
+
+
+
+T = int(input())
+
+for tc in range(1, T + 1):
+    N = int(input())
+    arr = [list(map(int, input().split())) for _ in range(N)]
+
+    selected = [0] * N      # 열 사용 체크
+    min_sum = 1000000
+
+    def backtrack(row, total):
+        global min_sum
+
+        # 가지치기: 중간합이 이미 최소합 이상이면 중단
+        if total >= min_sum:
+            return
+
+        # 종료 조건: 모든 행을 다 선택했으면 최소값 갱신
+        if row == N:
+            min_sum = min(min_sum, total)
+            return
+
+        # 현재 행에서 선택할 열 탐색
+        for col in range(N):
+            # 이전에 사용한 적 없는 열이면 방문
+            if not selected[col]:
+                # 방문체크
+                selected[col] = 1
+                # 다음 행으로 가서 또 열 선택
+                backtrack(row + 1, total + arr[row][col])
+                # 다른 행의 열이 들어올 수 있도록 열 선택한 기록 제거
+                selected[col] = 0
+
+    backtrack(0, 0)
+
+    print(f"#{tc} {min_sum}")
